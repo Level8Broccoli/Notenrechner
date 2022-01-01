@@ -7,7 +7,6 @@ import {
   ScrollRestoration
 } from "remix";
 import type { MetaFunction } from "remix";
-import Header from "./components/Header";
 import styles from "semantic-ui-css/semantic.min.css";
 
 export const meta: MetaFunction = () => {
@@ -28,7 +27,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
