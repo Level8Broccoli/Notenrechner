@@ -50,7 +50,7 @@ export default function Index() {
 
           <Table.Body>
             {people.map((person) => (
-              <Table.Row key={person.id}>
+              <Table.Row key={person.uuid}>
                 <Table.Cell>{person.name}</Table.Cell>
               </Table.Row>
             ))}
