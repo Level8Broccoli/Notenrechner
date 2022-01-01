@@ -7,10 +7,16 @@ import {
   ScrollRestoration
 } from "remix";
 import type { MetaFunction } from "remix";
+import Header from "./components/Header";
+import styles from "semantic-ui-css/semantic.min.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { title: "Notenrechner" };
 };
+
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+}
 
 export default function App() {
   return (
@@ -22,6 +28,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
