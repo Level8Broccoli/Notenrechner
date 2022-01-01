@@ -1,0 +1,6 @@
+{
+    "name": "Notenrechner",
+    "build": {
+        "dockerfile": "./Dockerfile.dev"
+    },
+}
