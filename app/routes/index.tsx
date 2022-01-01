@@ -5,7 +5,7 @@ import {
   useActionData,
   ActionFunction,
 } from "remix";
-import { Table, Container, Segment, Input } from "semantic-ui-react";
+import { Table, Container, Segment, Input, Message } from "semantic-ui-react";
 import { createPerson, getPeople, Person } from "~/person";
 import invariant from "tiny-invariant";
 
@@ -13,8 +13,8 @@ type NameError = {
   name?: boolean;
 };
 
-export const loader = () => {
-  return getPeople();
+export const loader = async () => {
+  return await getPeople();
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -30,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   invariant(typeof name === "string");
 
-  await createPerson({ name });
+  await createPerson(name);
 
   return redirect("/");
 };
@@ -50,7 +50,7 @@ export default function Index() {
 
           <Table.Body>
             {people.map((person) => (
-              <Table.Row key={person.name}>
+              <Table.Row key={person.id}>
                 <Table.Cell>{person.name}</Table.Cell>
               </Table.Row>
             ))}
@@ -58,6 +58,11 @@ export default function Index() {
               <Table.Cell>
                 <Form method="post">
                   <Input placeholder="Neue Person..." name="name" />
+                  {errors?.name && (
+                    <Message negative>
+                      <small>Darf nicht leer sein</small>
+                    </Message>
+                  )}
                 </Form>
               </Table.Cell>
             </Table.Row>

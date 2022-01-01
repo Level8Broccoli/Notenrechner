@@ -1,25 +1,42 @@
+import * as crypto from "crypto";
+import {
+  Client,
+  Create,
+  Collection,
+  Map as FaunaMap,
+  Index,
+  Lambda,
+  Match,
+  Paginate,
+  Get,
+} from "faunadb";
+
+const client = new Client({
+  domain: "db.eu.fauna.com",
+  secret: process.env.FAUNADB_SECRET!,
+});
+
 export type Person = {
+  id: number;
   name: string;
 };
 
-let people = [
-  {
-    name: "Schüler1",
-  },
-  {
-    name: "Schüler2",
-  },
-  {
-    name: "Schüler3",
-  },
-];
-
-export function getPeople() {
-  console.log("get People", people);
-  return people;
+export async function getPeople() {
+  const data: { data: { data: Person }[] } = await client.query(
+    FaunaMap(
+      Paginate(Match(Index("people")), {
+        size: 10,
+      }),
+      Lambda((ref) => Get(ref))
+    )
+  );
+  return data.data.map((entry: any) => entry.data);
 }
 
-export function createPerson(person: Person) {
-  people = [...people, person];
-  console.log("create Person", people);
+export async function createPerson(name: string) {
+  await client.query(
+    Create(Collection("people"), {
+      data: { name, id: crypto.randomUUID() },
+    })
+  );
 }
