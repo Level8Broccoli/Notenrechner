@@ -1,8 +1,13 @@
+import { useLoaderData } from "remix";
 import { Table, Container, Segment } from "semantic-ui-react";
+import { getPeople, Person } from "~/person";
 
-const names = ["Schüler1", "Schüler2"];
+export const loader = () => {
+  return getPeople();
+};
 
 export default function Index() {
+  const people = useLoaderData<Person[]>();
   return (
     <Container>
       <Segment>
@@ -14,9 +19,9 @@ export default function Index() {
           </Table.Header>
 
           <Table.Body>
-            {names.map(name => (
+            {people.map(person => (
               <Table.Row>
-                <Table.Cell>{name}</Table.Cell>
+                <Table.Cell>{person.name}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
