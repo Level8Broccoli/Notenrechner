@@ -12,7 +12,7 @@ import {
 } from "faunadb";
 
 const client = new Client({
-  domain: "db.eu.fauna.com",
+  domain: process.env.FAUNADB_DOMAIN,
   secret: process.env.FAUNADB_SECRET!,
 });
 
